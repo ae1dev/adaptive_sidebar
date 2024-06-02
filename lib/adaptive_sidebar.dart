@@ -20,6 +20,7 @@ class AdaptiveSidebar extends StatefulWidget {
   final Widget? logo;
   final String? title;
   final double maxLargeSidebarSize;
+  final double iconTitleSpacing;
   final bool macOSTopPadding;
   const AdaptiveSidebar({
     super.key,
@@ -31,6 +32,7 @@ class AdaptiveSidebar extends StatefulWidget {
     this.pinnedDestination,
     this.footerDestinations = const [],
     this.maxLargeSidebarSize = 192,
+    this.iconTitleSpacing = 10,
     this.macOSTopPadding = true,
   });
 
@@ -67,7 +69,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                       //Logo
                       if (widget.logo != null)
                         Padding(
-                          padding: const EdgeInsets.only(right: 12),
+                          padding: EdgeInsets.only(right: widget.iconTitleSpacing),
                           child: widget.logo!,
                         ),
                       //Title
