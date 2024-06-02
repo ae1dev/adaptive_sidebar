@@ -7,15 +7,15 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:universal_io/io.dart';
 
-part 'models/destination_model.dart';
+part 'models/sidebar_destination.dart';
 part 'widgets/as_destination.dart';
 part 'utils.dart';
 
 class AdaptiveSidebar extends StatefulWidget {
   final Widget child;
-  final List<ASDestinationModel> destinations;
-  final ASDestinationModel? pinnedDestination;
-  final List<ASDestinationModel> footerDestinations;
+  final List<SidebarDestination> destinations;
+  final SidebarDestination? pinnedDestination;
+  final List<SidebarDestination> footerDestinations;
   final void Function(int index) onPageChange;
   final Widget? logo;
   final String? title;
@@ -91,8 +91,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
               //Pinned Destination
               if (widget.pinnedDestination != null)
                 ASDestination(
-                  label: widget.pinnedDestination!.label,
-                  iconBuilder: widget.pinnedDestination!.iconBuilder,
+                  destination: widget.pinnedDestination!,
                   onTap: () {
                     _index = -1;
                     widget.onPageChange(-1);
@@ -118,8 +117,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                     itemCount: widget.destinations.length,
                     itemBuilder: (context, index) {
                       return ASDestination(
-                        label: widget.destinations[index].label,
-                        iconBuilder: widget.destinations[index].iconBuilder,
+                        destination: widget.destinations[index],
                         onTap: () {
                           _index = index;
                           widget.onPageChange(index);
@@ -139,8 +137,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                   itemCount: widget.footerDestinations.length,
                   itemBuilder: (context, index) {
                     return ASDestination(
-                      label: widget.footerDestinations[index].label,
-                      iconBuilder: widget.footerDestinations[index].iconBuilder,
+                      destination: widget.footerDestinations[index],
                       onTap: () {
                         _index = widget.destinations.length + index;
                         widget.onPageChange(widget.destinations.length + index);

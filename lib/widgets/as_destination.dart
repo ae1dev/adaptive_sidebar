@@ -1,14 +1,12 @@
 part of adaptive_sidebar;
 
 class ASDestination extends StatefulWidget {
-  final String label;
-  final Widget Function(BuildContext, Color) iconBuilder;
+  final SidebarDestination destination;
   final void Function()? onTap;
   final bool selected;
   const ASDestination({
     super.key,
-    required this.label,
-    required this.iconBuilder,
+    required this.destination,
     this.selected = false,
     this.onTap,
   });
@@ -53,16 +51,17 @@ class _ASDestinationState extends State<ASDestination> {
               children: [
                 Container(
                   margin: const EdgeInsets.only(right: 8, bottom: 2),
-                  child: widget.iconBuilder(
-                    context,
-                    getTextColor(context),
+                  child: Icon(
+                    widget.destination.icon,
+                    fill: widget.selected ? 1 : 0,
+                    color: getTextColor(context),
                   ),
                 ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: AutoSizeText(
-                      widget.label,
+                      widget.destination.label,
                       style: Theme.of(context).textTheme.displayLarge!.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
