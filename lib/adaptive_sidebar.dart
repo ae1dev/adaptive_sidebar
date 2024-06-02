@@ -12,6 +12,7 @@ part 'widgets/as_destination.dart';
 part 'utils.dart';
 
 class AdaptiveSidebar extends StatefulWidget {
+  final Widget child;
   final List<ASDestinationModel> destinations;
   final ASDestinationModel? pinnedDestination;
   final List<ASDestinationModel> footerDestinations;
@@ -22,6 +23,7 @@ class AdaptiveSidebar extends StatefulWidget {
   final bool macOSTopPadding;
   const AdaptiveSidebar({
     super.key,
+    required this.child,
     required this.destinations,
     required this.onPageChange,
     this.title,
@@ -41,109 +43,121 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.maxLargeSidebarSize,
-      decoration: BoxDecoration(
-        color: Theme.of(context).bottomAppBarTheme.color,
-      ),
-      child: Column(
-        children: [
-          //Top macOS padding
-          if (Platform.isMacOS && !kIsWeb && widget.macOSTopPadding)
-            const Gap(35),
-          if (Platform.isIOS && !kIsWeb || Platform.isAndroid && !kIsWeb)
-            const Gap(20),
-          //Title / Logo Section
-          if (widget.logo != null || widget.title != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 15, bottom: 5, top: 12),
-              child: Row(
-                children: [
-                  //Logo
-                  if (widget.logo != null)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: widget.logo!,
-                    ),
-                  //Title
-                  if (widget.title != null)
-                    Text(
-                      widget.title!,
-                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w600,
-                          ),
-                      maxLines: 1,
-                      softWrap: false,
-                    ),
-                ],
-              ),
-            ),
-          if (widget.logo != null || widget.title != null) const Divider(),
-          //Pinned Destination
-          if (widget.pinnedDestination != null)
-            ASDestination(
-              label: widget.pinnedDestination!.label,
-              iconBuilder: widget.pinnedDestination!.iconBuilder,
-              onTap: () {
-                _index = -1;
-                widget.onPageChange(-1);
-                setState(() {});
-              },
-              selected: _index == -1,
-            ),
-          if (widget.pinnedDestination != null)
-            const Padding(
-              padding: EdgeInsets.only(left: 17, right: 17, bottom: 7),
-              child: Divider(
-                height: 1,
-              ),
-            ),
-          //Destinations
-          Expanded(
-            child: MediaQuery.removePadding(
-              context: context,
-              removeBottom: true,
-              removeTop: true,
-              child: ListView.builder(
-                primary: false,
-                itemCount: widget.destinations.length,
-                itemBuilder: (context, index) {
-                  return ASDestination(
-                    label: widget.destinations[index].label,
-                    iconBuilder: widget.destinations[index].iconBuilder,
-                    onTap: () {
-                      _index = index;
-                      widget.onPageChange(index);
-                      setState(() {});
-                    },
-                    selected: _index == index,
-                  );
-                },
-              ),
-            ),
+    return Row(
+      children: [
+        //Sidebar
+        Container(
+          width: widget.maxLargeSidebarSize,
+          decoration: BoxDecoration(
+            color: Theme.of(context).bottomAppBarTheme.color,
           ),
-          //Footer destination options
-          if (widget.footerDestinations.isNotEmpty)
-            ListView.builder(
-              primary: false,
-              shrinkWrap: true,
-              itemCount: widget.footerDestinations.length,
-              itemBuilder: (context, index) {
-                return ASDestination(
-                  label: widget.footerDestinations[index].label,
-                  iconBuilder: widget.footerDestinations[index].iconBuilder,
+          child: Column(
+            children: [
+              //Top macOS padding
+              if (Platform.isMacOS && !kIsWeb && widget.macOSTopPadding)
+                const Gap(35),
+              if (Platform.isIOS && !kIsWeb || Platform.isAndroid && !kIsWeb)
+                const Gap(20),
+              //Title / Logo Section
+              if (widget.logo != null || widget.title != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, bottom: 5, top: 12),
+                  child: Row(
+                    children: [
+                      //Logo
+                      if (widget.logo != null)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: widget.logo!,
+                        ),
+                      //Title
+                      if (widget.title != null)
+                        Text(
+                          widget.title!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayLarge!
+                              .copyWith(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w600,
+                              ),
+                          maxLines: 1,
+                          softWrap: false,
+                        ),
+                    ],
+                  ),
+                ),
+              if (widget.logo != null || widget.title != null) const Divider(),
+              //Pinned Destination
+              if (widget.pinnedDestination != null)
+                ASDestination(
+                  label: widget.pinnedDestination!.label,
+                  iconBuilder: widget.pinnedDestination!.iconBuilder,
                   onTap: () {
-                    _index = widget.destinations.length + index;
-                    widget.onPageChange(widget.destinations.length + index);
+                    _index = -1;
+                    widget.onPageChange(-1);
                     setState(() {});
                   },
-                  selected: _index == (widget.destinations.length + index),
-                );
-              },
-            ),
-        ],
-      ),
+                  selected: _index == -1,
+                ),
+              if (widget.pinnedDestination != null)
+                const Padding(
+                  padding: EdgeInsets.only(left: 17, right: 17, bottom: 7),
+                  child: Divider(
+                    height: 1,
+                  ),
+                ),
+              //Destinations
+              Expanded(
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeBottom: true,
+                  removeTop: true,
+                  child: ListView.builder(
+                    primary: false,
+                    itemCount: widget.destinations.length,
+                    itemBuilder: (context, index) {
+                      return ASDestination(
+                        label: widget.destinations[index].label,
+                        iconBuilder: widget.destinations[index].iconBuilder,
+                        onTap: () {
+                          _index = index;
+                          widget.onPageChange(index);
+                          setState(() {});
+                        },
+                        selected: _index == index,
+                      );
+                    },
+                  ),
+                ),
+              ),
+              //Footer destination options
+              if (widget.footerDestinations.isNotEmpty)
+                ListView.builder(
+                  primary: false,
+                  shrinkWrap: true,
+                  itemCount: widget.footerDestinations.length,
+                  itemBuilder: (context, index) {
+                    return ASDestination(
+                      label: widget.footerDestinations[index].label,
+                      iconBuilder: widget.footerDestinations[index].iconBuilder,
+                      onTap: () {
+                        _index = widget.destinations.length + index;
+                        widget.onPageChange(widget.destinations.length + index);
+                        setState(() {});
+                      },
+                      selected: _index == (widget.destinations.length + index),
+                    );
+                  },
+                ),
+            ],
+          ),
+        ),
+        //Content
+        Expanded(
+          child: widget.child,
+        ),
+      ],
     );
   }
 }
