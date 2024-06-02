@@ -17,7 +17,7 @@ class AdaptiveSidebar extends StatefulWidget {
   final SidebarDestination? pinnedDestination;
   final List<SidebarDestination> footerDestinations;
   final void Function(int index) onPageChange;
-  final Widget? logo;
+  final Widget? icon;
   final String? title;
   final double maxLargeSidebarSize;
   final double iconTitleSpacing;
@@ -28,7 +28,7 @@ class AdaptiveSidebar extends StatefulWidget {
     required this.destinations,
     required this.onPageChange,
     this.title,
-    this.logo,
+    this.icon,
     this.pinnedDestination,
     this.footerDestinations = const [],
     this.maxLargeSidebarSize = 192,
@@ -60,17 +60,17 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                 const Gap(35),
               if (Platform.isIOS && !kIsWeb || Platform.isAndroid && !kIsWeb)
                 const Gap(20),
-              //Title / Logo Section
-              if (widget.logo != null || widget.title != null)
+              //Title / Icon Section
+              if (widget.icon != null || widget.title != null)
                 Padding(
                   padding: const EdgeInsets.only(left: 15, bottom: 5, top: 12),
                   child: Row(
                     children: [
-                      //Logo
-                      if (widget.logo != null)
+                      //Icon
+                      if (widget.icon != null)
                         Padding(
                           padding: EdgeInsets.only(right: widget.iconTitleSpacing),
-                          child: widget.logo!,
+                          child: widget.icon!,
                         ),
                       //Title
                       if (widget.title != null)
@@ -89,7 +89,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                     ],
                   ),
                 ),
-              if (widget.logo != null || widget.title != null) const Divider(),
+              if (widget.icon != null || widget.title != null) const Divider(),
               //Pinned Destination
               if (widget.pinnedDestination != null)
                 ASDestination(
