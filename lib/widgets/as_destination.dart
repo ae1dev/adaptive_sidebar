@@ -1,0 +1,85 @@
+part of adaptive_sidebar;
+
+class ASDestination extends StatefulWidget {
+  final String label;
+  final Widget Function(BuildContext, Color) iconBuilder;
+  final void Function()? onTap;
+  final bool selected;
+  const ASDestination({
+    super.key,
+    required this.label,
+    required this.iconBuilder,
+    this.selected = false,
+    this.onTap,
+  });
+
+  @override
+  State<ASDestination> createState() => _ASDestinationState();
+}
+
+class _ASDestinationState extends State<ASDestination> {
+  bool hovering = false;
+
+  //Display a hover color for drawer item text
+  Color getTextColor(BuildContext context) {
+    if (hovering == true && widget.selected != true) {
+      return Theme.of(context).textTheme.displayLarge!.color!;
+    }
+    if (widget.selected == true) {
+      return Theme.of(context).primaryColor;
+    }
+    return Theme.of(context).textTheme.displayLarge!.color!.withOpacity(0.7);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(right: 15, left: 12, top: 5, bottom: 7),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: MouseRegion(
+          onEnter: (PointerEnterEvent details) =>
+              setState(() => hovering = true),
+          onExit: (PointerExitEvent details) => setState(() {
+            hovering = false;
+          }),
+          cursor: SystemMouseCursors.click,
+          child: Container(
+            padding:
+                const EdgeInsets.only(right: 8, left: 5, bottom: 4, top: 4),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(right: 8, bottom: 2),
+                  child: widget.iconBuilder(
+                    context,
+                    getTextColor(context),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: AutoSizeText(
+                      widget.label,
+                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: getTextColor(context),
+                          ),
+                      minFontSize: 16,
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

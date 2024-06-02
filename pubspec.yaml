@@ -1,0 +1,22 @@
+name: adaptive_sidebar
+description: "Adaptive sidebar for desktop layouts"
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  universal_io: ^2.2.2
+  auto_size_text: ^3.0.0
+  gap: ^3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
