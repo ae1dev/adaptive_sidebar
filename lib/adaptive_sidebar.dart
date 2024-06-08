@@ -69,7 +69,8 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                       //Icon
                       if (widget.icon != null)
                         Padding(
-                          padding: EdgeInsets.only(right: widget.iconTitleSpacing),
+                          padding:
+                              EdgeInsets.only(right: widget.iconTitleSpacing),
                           child: widget.icon!,
                         ),
                       //Title
@@ -95,9 +96,13 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                 ASDestination(
                   destination: widget.pinnedDestination!,
                   onTap: () {
-                    _index = -1;
                     widget.onPageChange(-1);
-                    setState(() {});
+
+                    //Check if destination is a page
+                    if (!widget.pinnedDestination!.popup) {
+                      _index = -1;
+                      setState(() {});
+                    }
                   },
                   selected: _index == -1,
                 ),
@@ -121,9 +126,13 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                       return ASDestination(
                         destination: widget.destinations[index],
                         onTap: () {
-                          _index = index;
                           widget.onPageChange(index);
-                          setState(() {});
+
+                          //Check if destination is a page
+                          if (!widget.destinations[index].popup) {
+                            _index = index;
+                            setState(() {});
+                          }
                         },
                         selected: _index == index,
                       );
@@ -141,9 +150,13 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                     return ASDestination(
                       destination: widget.footerDestinations[index],
                       onTap: () {
-                        _index = widget.destinations.length + index;
                         widget.onPageChange(widget.destinations.length + index);
-                        setState(() {});
+
+                        //Check if destination is a page
+                        if (!widget.footerDestinations[index].popup) {
+                          _index = widget.destinations.length + index;
+                          setState(() {});
+                        }
                       },
                       selected: _index == (widget.destinations.length + index),
                     );
