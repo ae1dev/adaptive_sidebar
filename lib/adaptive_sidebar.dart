@@ -19,6 +19,7 @@ class AdaptiveSidebar extends StatefulWidget {
   final void Function(int index) onPageChange;
   final Widget? icon;
   final String? title;
+  final TextStyle? titleStyle;
   final double maxLargeSidebarSize;
   final double iconTitleSpacing;
   final bool macOSTopPadding;
@@ -28,6 +29,7 @@ class AdaptiveSidebar extends StatefulWidget {
     required this.destinations,
     required this.onPageChange,
     this.title,
+    this.titleStyle,
     this.icon,
     this.pinnedDestination,
     this.footerDestinations = const [],
@@ -77,13 +79,14 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                       if (widget.title != null)
                         Text(
                           widget.title!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayLarge!
-                              .copyWith(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          style: widget.titleStyle ??
+                              Theme.of(context)
+                                  .textTheme
+                                  .displayLarge!
+                                  .copyWith(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                           maxLines: 1,
                           softWrap: false,
                         ),
