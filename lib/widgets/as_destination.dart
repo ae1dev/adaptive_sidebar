@@ -49,14 +49,26 @@ class _ASDestinationState extends State<ASDestination> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 8, bottom: 2),
-                  child: Icon(
-                    widget.destination.icon,
-                    fill: widget.selected ? 1 : 0,
-                    color: getTextColor(context),
+                //IconData Icon
+                if (widget.destination.icon != null)
+                  Container(
+                    margin: const EdgeInsets.only(right: 8, bottom: 2),
+                    child: Icon(
+                      widget.destination.icon,
+                      fill: widget.selected ? 1 : 0,
+                      color: getTextColor(context),
+                    ),
                   ),
-                ),
+                //Widget Icon
+                if (widget.destination.icon == null &&
+                    widget.destination.iconBuilder != null)
+                  Container(
+                    margin: const EdgeInsets.only(right: 8, bottom: 2),
+                    child: widget.destination.iconBuilder!(
+                      context,
+                      getTextColor(context),
+                    ),
+                  ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
