@@ -1,7 +1,7 @@
 name: adaptive_sidebar
 description: "Adaptive sidebar for desktop layouts"
 version: 0.0.1
-homepage:
+homepage: https://github.com/ae1dev/adaptive_sidebar
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
