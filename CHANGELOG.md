@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- Added medium layout manual button.
+
 ## 0.2.0
 
 - Added medium layout support that only shows destination icons.
