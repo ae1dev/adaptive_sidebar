@@ -26,7 +26,7 @@ AdaptiveSidebar(
         ),
     ],
     onPageChange: (index) {
-        //Do somthing
+        //Do something
     },
     child: child,
 );
