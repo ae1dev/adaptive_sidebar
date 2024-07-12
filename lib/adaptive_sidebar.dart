@@ -9,7 +9,6 @@ import 'package:universal_io/io.dart';
 part 'enums/sidebar_style.dart';
 part 'models/sidebar_destination.dart';
 part 'widgets/as_destination.dart';
-part 'utils.dart';
 
 class AdaptiveSidebar extends StatefulWidget {
   final Widget child;
