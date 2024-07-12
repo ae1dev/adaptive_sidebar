@@ -1,5 +1,5 @@
 name: adaptive_sidebar
-description: "Adaptive sidebar for desktop layouts"
+description: "Sleak sidebar for desktop/tablet Flutter apps with automatic size change."
 version: 0.2.1
 homepage: https://github.com/ae1dev/adaptive_sidebar
 
