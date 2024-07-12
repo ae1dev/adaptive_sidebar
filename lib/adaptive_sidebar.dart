@@ -26,9 +26,18 @@ class AdaptiveSidebar extends StatefulWidget {
 
   /// Icon shown before the title
   final Widget? icon;
+
+  /// Title of the app [optional]
   final String? title;
+
+  /// Style of the title of the app [optional]
   final TextStyle? titleStyle;
+
+  /// Max size of the sidebar
+  /// 
+  /// Default: 192
   final double maxLargeSidebarSize;
+  
   final double iconTitleSpacing;
 
   /// Add 30px padding to the top on macOS
