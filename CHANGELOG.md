@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2
+
+- Added example project folder.
+
 ## 0.2.1
 
 - Added medium layout manual button.
