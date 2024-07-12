@@ -1,6 +1,7 @@
 library adaptive_sidebar;
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,6 +40,9 @@ class AdaptiveSidebar extends StatefulWidget {
   /// The breakpoint size of the child space for the medium icon only layout
   final double mediumBreakpoint;
 
+  /// Manually enable and disable the medium layout
+  final bool mediumManualButton;
+
   /// Style of the sidebar
   ///
   /// Default: flat
@@ -58,6 +62,7 @@ class AdaptiveSidebar extends StatefulWidget {
     this.macOSTopPadding = true,
     this.mediumAuto = true,
     this.mediumBreakpoint = 850.0,
+    this.mediumManualButton = false,
     this.style = ASStyle.flat,
   });
 
@@ -71,11 +76,13 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
 
   void mediumCheck(double maxWidth) {
     //Check if medium layout should be disabled
-    if (maxWidth >= (widget.mediumBreakpoint + (widget.maxLargeSidebarSize - 58)) && iconsOnly) {
+    if (maxWidth >=
+            (widget.mediumBreakpoint + (widget.maxLargeSidebarSize - 58)) &&
+        iconsOnly) {
       iconsOnly = false;
     }
 
-     //Check if medium layout should be enabled
+    //Check if medium layout should be enabled
     if (maxWidth < widget.mediumBreakpoint && !iconsOnly) {
       iconsOnly = true;
     }
@@ -157,6 +164,26 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
               decoration: decoration(),
               child: Column(
                 children: [
+                  // Manual medium button
+                  if (widget.mediumManualButton)
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 0),
+                          child: CupertinoButton(
+                            child: Icon(
+                              CupertinoIcons.sidebar_left,
+                              color: Theme.of(context).iconTheme.color,
+                            ),
+                            onPressed: () {
+                              iconsOnly = !iconsOnly;
+                              if (mounted) setState(() {});
+                            },
+                          ),
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
                   //Title / Icon Section
                   if (widget.icon != null || widget.title != null)
                     Padding(
@@ -279,7 +306,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
           child: LayoutBuilder(
             builder: (context, constraints) {
               //Check breakpoint size
-              if (widget.mediumAuto) {
+              if (widget.mediumAuto && !widget.mediumManualButton) {
                 mediumCheck(constraints.maxWidth);
               }
 
