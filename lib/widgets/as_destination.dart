@@ -3,11 +3,12 @@ part of adaptive_sidebar;
 class ASDestination extends StatefulWidget {
   final SidebarDestination destination;
   final void Function()? onTap;
-  final bool selected;
+  final bool selected, iconsOnly;
   const ASDestination({
     super.key,
     required this.destination,
     this.selected = false,
+    this.iconsOnly = false,
     this.onTap,
   });
 
@@ -32,7 +33,8 @@ class _ASDestinationState extends State<ASDestination> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 15, left: 12, top: 5, bottom: 7),
+      margin: EdgeInsets.only(
+          right: widget.iconsOnly ? 12 : 15, left: 12, top: 5, bottom: 7),
       child: GestureDetector(
         onTap: widget.onTap,
         child: MouseRegion(
@@ -43,8 +45,8 @@ class _ASDestinationState extends State<ASDestination> {
           }),
           cursor: SystemMouseCursors.click,
           child: Container(
-            padding:
-                const EdgeInsets.only(right: 8, left: 5, bottom: 4, top: 4),
+            padding: EdgeInsets.only(
+                right: widget.iconsOnly ? 5 : 8, left: 5, bottom: 4, top: 4),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -52,7 +54,8 @@ class _ASDestinationState extends State<ASDestination> {
                 //IconData Icon
                 if (widget.destination.icon != null)
                   Container(
-                    margin: const EdgeInsets.only(right: 8, bottom: 2),
+                    margin: EdgeInsets.only(
+                        right: widget.iconsOnly ? 0 : 8, bottom: 2),
                     child: Icon(
                       widget.destination.icon,
                       fill: widget.selected ? 1 : 0,
@@ -63,29 +66,32 @@ class _ASDestinationState extends State<ASDestination> {
                 if (widget.destination.icon == null &&
                     widget.destination.iconBuilder != null)
                   Container(
-                    margin: const EdgeInsets.only(right: 8, bottom: 2),
+                    margin: EdgeInsets.only(
+                        right: widget.iconsOnly ? 0 : 8, bottom: 2),
                     child: widget.destination.iconBuilder!(
                       context,
                       getTextColor(context),
                     ),
                   ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: AutoSizeText(
-                      widget.destination.label,
-                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: getTextColor(context),
-                          ),
-                      minFontSize: 16,
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
+                if (!widget.iconsOnly)
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: AutoSizeText(
+                        widget.destination.label,
+                        style:
+                            Theme.of(context).textTheme.displayLarge!.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: getTextColor(context),
+                                ),
+                        minFontSize: 16,
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           ),

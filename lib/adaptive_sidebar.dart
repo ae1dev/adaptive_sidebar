@@ -34,6 +34,12 @@ class AdaptiveSidebar extends StatefulWidget {
   /// Add 30px padding to the top on macOS
   final bool macOSTopPadding;
 
+  /// Auto enable medium layout if passing medium breakpoint
+  final bool mediumAuto;
+
+  /// The breakpoint size of the child space for the medium icon only layout
+  final double mediumBreakpoint;
+
   /// Style of the sidebar
   ///
   /// Default: flat
@@ -51,6 +57,8 @@ class AdaptiveSidebar extends StatefulWidget {
     this.maxLargeSidebarSize = 192,
     this.iconTitleSpacing = 10,
     this.macOSTopPadding = true,
+    this.mediumAuto = true,
+    this.mediumBreakpoint = 850.0,
     this.style = ASStyle.flat,
   });
 
@@ -59,7 +67,20 @@ class AdaptiveSidebar extends StatefulWidget {
 }
 
 class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
+  bool iconsOnly = false;
   int _index = 0;
+
+  void mediumCheck(double maxWidth) {
+    //Check if medium layout should be disabled
+    if (maxWidth >= (widget.mediumBreakpoint + (widget.maxLargeSidebarSize - 58)) && iconsOnly) {
+      iconsOnly = false;
+    }
+
+     //Check if medium layout should be enabled
+    if (maxWidth < widget.mediumBreakpoint && !iconsOnly) {
+      iconsOnly = true;
+    }
+  }
 
   double topPadding() {
     //Top macOS padding
@@ -81,6 +102,13 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
       return 20;
     }
     return 10;
+  }
+
+  double sidebarWidth() {
+    if (iconsOnly) {
+      return 58;
+    }
+    return widget.maxLargeSidebarSize;
   }
 
   Decoration decoration() {
@@ -110,7 +138,8 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
     return Row(
       children: [
         //Sidebar
-        Container(
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
           color: widget.style == ASStyle.floating
               ? Theme.of(context).scaffoldBackgroundColor
               : Theme.of(context).bottomAppBarTheme.color,
@@ -125,7 +154,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                   ? EdgeInsets.only(
                       top: floatingTopPadding(), left: 10, bottom: 10)
                   : null,
-              width: widget.maxLargeSidebarSize,
+              width: sidebarWidth(),
               decoration: decoration(),
               child: Column(
                 children: [
@@ -139,12 +168,14 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                           //Icon
                           if (widget.icon != null)
                             Padding(
-                              padding: EdgeInsets.only(
-                                  right: widget.iconTitleSpacing),
+                              padding: iconsOnly
+                                  ? EdgeInsets.zero
+                                  : EdgeInsets.only(
+                                      right: widget.iconTitleSpacing),
                               child: widget.icon!,
                             ),
                           //Title
-                          if (widget.title != null)
+                          if (widget.title != null && !iconsOnly)
                             Text(
                               widget.title!,
                               style: widget.titleStyle ??
@@ -177,6 +208,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                         }
                       },
                       selected: _index == -1,
+                      iconsOnly: iconsOnly,
                     ),
                   if (widget.pinnedDestination != null)
                     const Padding(
@@ -207,6 +239,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                               }
                             },
                             selected: _index == index,
+                            iconsOnly: iconsOnly,
                           );
                         },
                       ),
@@ -233,6 +266,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                           },
                           selected:
                               _index == (widget.destinations.length + index),
+                          iconsOnly: iconsOnly,
                         );
                       },
                     ),
@@ -243,7 +277,16 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
         ),
         //Content
         Expanded(
-          child: widget.child,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              //Check breakpoint size
+              if (widget.mediumAuto) {
+                mediumCheck(constraints.maxWidth);
+              }
+
+              return widget.child;
+            },
+          ),
         ),
       ],
     );
