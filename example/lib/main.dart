@@ -1,6 +1,5 @@
 import 'package:adaptive_sidebar/adaptive_sidebar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const MyApp());
