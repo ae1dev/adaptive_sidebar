@@ -90,3 +90,11 @@ The breakpoint size of the child space for the medium icon only layout
 ### mediumManualButton
 
 Manually enable and disable the medium layout
+
+### bottomNavigationBar [optional]
+
+Show a bottomNavigationBar on smaller devices useing the bottomNavigationBarBreakpoint.
+
+### bottomNavigationBarBreakpoint
+
+Breakpoint of when the sidebar is enabled and the bottom navigation bar is no longer used.
