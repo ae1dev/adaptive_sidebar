@@ -34,10 +34,10 @@ class AdaptiveSidebar extends StatefulWidget {
   final TextStyle? titleStyle;
 
   /// Max size of the sidebar
-  /// 
+  ///
   /// Default: 192
   final double maxLargeSidebarSize;
-  
+
   final double iconTitleSpacing;
 
   /// Add 30px padding to the top on macOS
@@ -51,6 +51,12 @@ class AdaptiveSidebar extends StatefulWidget {
 
   /// Manually enable and disable the medium layout
   final bool mediumManualButton;
+
+  /// Used when passing the bottomNavigationBarBreakpoint [optional]
+  final Widget? bottomNavigationBar;
+
+  /// Breakpoint of when the sidebar is enabled and the bottom appbar is no longer used (bottomNavigationBar is optional).
+  final double bottomNavigationBarBreakpoint;
 
   /// Style of the sidebar
   ///
@@ -71,6 +77,8 @@ class AdaptiveSidebar extends StatefulWidget {
     this.macOSTopPadding = true,
     this.mediumAuto = true,
     this.mediumBreakpoint = 850.0,
+    this.bottomNavigationBar,
+    this.bottomNavigationBarBreakpoint = 700.0,
     this.mediumManualButton = false,
     this.style = ASStyle.flat,
   });
@@ -150,180 +158,204 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        //Sidebar
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          color: widget.style == ASStyle.floating
-              ? Theme.of(context).scaffoldBackgroundColor
-              : Theme.of(context).bottomAppBarTheme.color,
-          child: SafeArea(
-            child: Container(
-              padding: widget.style == ASStyle.flat
-                  ? EdgeInsets.only(
-                      top: topPadding(),
-                    )
-                  : null,
-              margin: widget.style == ASStyle.floating
-                  ? EdgeInsets.only(
-                      top: floatingTopPadding(), left: 10, bottom: 10)
-                  : null,
-              width: sidebarWidth(),
-              decoration: decoration(),
-              child: Column(
-                children: [
-                  // Manual medium button
-                  if (widget.mediumManualButton)
-                    Row(
+    return LayoutBuilder(
+      builder: (context, fullWindowConstraints) {
+        return Row(
+          children: [
+            //Sidebar
+            if (fullWindowConstraints.maxWidth >=
+                    widget.bottomNavigationBarBreakpoint ||
+                widget.bottomNavigationBar == null)
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                color: widget.style == ASStyle.floating
+                    ? Theme.of(context).scaffoldBackgroundColor
+                    : Theme.of(context).bottomAppBarTheme.color,
+                child: SafeArea(
+                  child: Container(
+                    padding: widget.style == ASStyle.flat
+                        ? EdgeInsets.only(
+                            top: topPadding(),
+                          )
+                        : null,
+                    margin: widget.style == ASStyle.floating
+                        ? EdgeInsets.only(
+                            top: floatingTopPadding(), left: 10, bottom: 10)
+                        : null,
+                    width: sidebarWidth(),
+                    decoration: decoration(),
+                    child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 0),
-                          child: CupertinoButton(
-                            child: Icon(
-                              CupertinoIcons.sidebar_left,
-                              color: Theme.of(context).iconTheme.color,
-                            ),
-                            onPressed: () {
-                              iconsOnly = !iconsOnly;
-                              if (mounted) setState(() {});
-                            },
+                        // Manual medium button
+                        if (widget.mediumManualButton)
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 0),
+                                child: CupertinoButton(
+                                  child: Icon(
+                                    CupertinoIcons.sidebar_left,
+                                    color: Theme.of(context).iconTheme.color,
+                                  ),
+                                  onPressed: () {
+                                    iconsOnly = !iconsOnly;
+                                    if (mounted) setState(() {});
+                                  },
+                                ),
+                              ),
+                              const Spacer(),
+                            ],
                           ),
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                  //Title / Icon Section
-                  if (widget.icon != null || widget.title != null)
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, bottom: 5, top: 12),
-                      child: Row(
-                        children: [
-                          //Icon
-                          if (widget.icon != null)
-                            Padding(
-                              padding: iconsOnly
-                                  ? EdgeInsets.zero
-                                  : EdgeInsets.only(
-                                      right: widget.iconTitleSpacing),
-                              child: widget.icon!,
+                        //Title / Icon Section
+                        if (widget.icon != null || widget.title != null)
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, bottom: 5, top: 12),
+                            child: Row(
+                              children: [
+                                //Icon
+                                if (widget.icon != null)
+                                  Padding(
+                                    padding: iconsOnly
+                                        ? EdgeInsets.zero
+                                        : EdgeInsets.only(
+                                            right: widget.iconTitleSpacing),
+                                    child: widget.icon!,
+                                  ),
+                                //Title
+                                if (widget.title != null && !iconsOnly)
+                                  Text(
+                                    widget.title!,
+                                    style: widget.titleStyle ??
+                                        Theme.of(context)
+                                            .textTheme
+                                            .displayLarge!
+                                            .copyWith(
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                    maxLines: 1,
+                                    softWrap: false,
+                                  ),
+                              ],
                             ),
-                          //Title
-                          if (widget.title != null && !iconsOnly)
-                            Text(
-                              widget.title!,
-                              style: widget.titleStyle ??
-                                  Theme.of(context)
-                                      .textTheme
-                                      .displayLarge!
-                                      .copyWith(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                              maxLines: 1,
-                              softWrap: false,
-                            ),
-                        ],
-                      ),
-                    ),
-                  if (widget.icon != null || widget.title != null)
-                    const Divider(),
-                  //Pinned Destination
-                  if (widget.pinnedDestination != null)
-                    ASDestination(
-                      destination: widget.pinnedDestination!,
-                      onTap: () {
-                        widget.onPageChange(-1);
-
-                        //Check if destination is a page
-                        if (!widget.pinnedDestination!.popup) {
-                          _index = -1;
-                          setState(() {});
-                        }
-                      },
-                      selected: _index == -1,
-                      iconsOnly: iconsOnly,
-                    ),
-                  if (widget.pinnedDestination != null)
-                    const Padding(
-                      padding: EdgeInsets.only(left: 17, right: 17, bottom: 7),
-                      child: Divider(
-                        height: 1,
-                      ),
-                    ),
-                  //Destinations
-                  Expanded(
-                    child: MediaQuery.removePadding(
-                      context: context,
-                      removeBottom: true,
-                      removeTop: true,
-                      child: ListView.builder(
-                        primary: false,
-                        itemCount: widget.destinations.length,
-                        itemBuilder: (context, index) {
-                          return ASDestination(
-                            destination: widget.destinations[index],
+                          ),
+                        if (widget.icon != null || widget.title != null)
+                          const Divider(),
+                        //Pinned Destination
+                        if (widget.pinnedDestination != null)
+                          ASDestination(
+                            destination: widget.pinnedDestination!,
                             onTap: () {
-                              widget.onPageChange(index);
+                              widget.onPageChange(-1);
 
                               //Check if destination is a page
-                              if (!widget.destinations[index].popup) {
-                                _index = index;
+                              if (!widget.pinnedDestination!.popup) {
+                                _index = -1;
                                 setState(() {});
                               }
                             },
-                            selected: _index == index,
+                            selected: _index == -1,
                             iconsOnly: iconsOnly,
-                          );
+                          ),
+                        if (widget.pinnedDestination != null)
+                          const Padding(
+                            padding:
+                                EdgeInsets.only(left: 17, right: 17, bottom: 7),
+                            child: Divider(
+                              height: 1,
+                            ),
+                          ),
+                        //Destinations
+                        Expanded(
+                          child: MediaQuery.removePadding(
+                            context: context,
+                            removeBottom: true,
+                            removeTop: true,
+                            child: ListView.builder(
+                              primary: false,
+                              itemCount: widget.destinations.length,
+                              itemBuilder: (context, index) {
+                                return ASDestination(
+                                  destination: widget.destinations[index],
+                                  onTap: () {
+                                    widget.onPageChange(index);
+
+                                    //Check if destination is a page
+                                    if (!widget.destinations[index].popup) {
+                                      _index = index;
+                                      setState(() {});
+                                    }
+                                  },
+                                  selected: _index == index,
+                                  iconsOnly: iconsOnly,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        //Footer destination options
+                        if (widget.footerDestinations.isNotEmpty)
+                          ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: widget.footerDestinations.length,
+                            itemBuilder: (context, index) {
+                              return ASDestination(
+                                destination: widget.footerDestinations[index],
+                                onTap: () {
+                                  widget.onPageChange(
+                                      widget.destinations.length + index);
+
+                                  //Check if destination is a page
+                                  if (!widget.footerDestinations[index].popup) {
+                                    _index = widget.destinations.length + index;
+                                    setState(() {});
+                                  }
+                                },
+                                selected: _index ==
+                                    (widget.destinations.length + index),
+                                iconsOnly: iconsOnly,
+                              );
+                            },
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            //Content
+            Expanded(
+              child: Column(
+                children: [
+                  //Body
+                  Expanded(
+                    child: MediaQuery.removePadding(
+                      removeBottom: widget.bottomNavigationBar != null, //Remove bottom padding if there is a navigation bar.
+                      context: context,
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          //Check breakpoint size
+                          if (widget.mediumAuto && !widget.mediumManualButton) {
+                            mediumCheck(constraints.maxWidth);
+                          }
+
+                          return widget.body;
                         },
                       ),
                     ),
                   ),
-                  //Footer destination options
-                  if (widget.footerDestinations.isNotEmpty)
-                    ListView.builder(
-                      primary: false,
-                      shrinkWrap: true,
-                      itemCount: widget.footerDestinations.length,
-                      itemBuilder: (context, index) {
-                        return ASDestination(
-                          destination: widget.footerDestinations[index],
-                          onTap: () {
-                            widget.onPageChange(
-                                widget.destinations.length + index);
-
-                            //Check if destination is a page
-                            if (!widget.footerDestinations[index].popup) {
-                              _index = widget.destinations.length + index;
-                              setState(() {});
-                            }
-                          },
-                          selected:
-                              _index == (widget.destinations.length + index),
-                          iconsOnly: iconsOnly,
-                        );
-                      },
-                    ),
+                  //Bottom appbar
+                  if (widget.bottomNavigationBar != null &&
+                      fullWindowConstraints.maxWidth <
+                          widget.bottomNavigationBarBreakpoint)
+                    widget.bottomNavigationBar!
                 ],
               ),
             ),
-          ),
-        ),
-        //Content
-        Expanded(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              //Check breakpoint size
-              if (widget.mediumAuto && !widget.mediumManualButton) {
-                mediumCheck(constraints.maxWidth);
-              }
-
-              return widget.body;
-            },
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
