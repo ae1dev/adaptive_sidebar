@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+- BREAKING CHANGE: Changed child to body.
+
 ## 0.2.2
 
 - Added example project folder.
