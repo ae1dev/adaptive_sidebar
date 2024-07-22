@@ -12,7 +12,7 @@ part 'models/sidebar_destination.dart';
 part 'widgets/as_destination.dart';
 
 class AdaptiveSidebar extends StatefulWidget {
-  final Widget child;
+  final Widget body;
   final List<SidebarDestination> destinations;
 
   /// This will be shown on top of the destination list
@@ -58,7 +58,7 @@ class AdaptiveSidebar extends StatefulWidget {
   final ASStyle style;
   const AdaptiveSidebar({
     super.key,
-    required this.child,
+    required this.body,
     required this.destinations,
     required this.onPageChange,
     this.title,
@@ -319,7 +319,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                 mediumCheck(constraints.maxWidth);
               }
 
-              return widget.child;
+              return widget.body;
             },
           ),
         ),

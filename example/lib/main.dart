@@ -55,7 +55,7 @@ class _TabsViewState extends State<TabsView> {
         onPageChange: (index) {
           _pageController.jumpToPage(index);
         },
-        child: PageView(
+        body: PageView(
           controller: _pageController,
           children: const [
             HomeView(),
