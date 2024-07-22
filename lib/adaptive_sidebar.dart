@@ -52,10 +52,10 @@ class AdaptiveSidebar extends StatefulWidget {
   /// Manually enable and disable the medium layout
   final bool mediumManualButton;
 
-  /// Used when passing the bottomNavigationBarBreakpoint [optional]
+  /// Show a bottomNavigationBar on smaller devices useing the bottomNavigationBarBreakpoint. [optional]
   final Widget? bottomNavigationBar;
 
-  /// Breakpoint of when the sidebar is enabled and the bottom appbar is no longer used (bottomNavigationBar is optional).
+  /// Breakpoint of when the sidebar is enabled and the bottom navigation bar is no longer used (bottomNavigationBar is optional).
   final double bottomNavigationBarBreakpoint;
 
   /// Style of the sidebar
