@@ -35,7 +35,8 @@ AdaptiveSidebar(
 
 ## Who's using it?
 
-- [stats.fm](https://stats.fm/)
+- [Æ1](https://Æ1.com)
+- [stats.fm](https://stats.fm/) - Spotify and Apple Music analytic's app.
 
 ## API
 
