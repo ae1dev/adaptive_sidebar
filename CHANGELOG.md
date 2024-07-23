@@ -3,7 +3,7 @@
 ## 0.3.0
 
 - Added support for the bottomNavigationBar [optional].
-- BREAKING CHANGE: Changed child to body.
+- BREAKING CHANGE: Changed child field to body.
 
 ## 0.2.2
 
