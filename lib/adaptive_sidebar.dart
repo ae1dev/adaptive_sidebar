@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:universal_io/io.dart';
 
@@ -88,21 +89,25 @@ class AdaptiveSidebar extends StatefulWidget {
 }
 
 class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
-  bool iconsOnly = false;
+  ValueNotifier<bool> iconsOnly = ValueNotifier(false);
   int _index = 0;
 
   void mediumCheck(double maxWidth) {
-    //Check if medium layout should be disabled
-    if (maxWidth >=
-            (widget.mediumBreakpoint + (widget.maxLargeSidebarSize - 58)) &&
-        iconsOnly) {
-      iconsOnly = false;
-    }
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      //Check if medium layout should be disabled
+      if (maxWidth >=
+              (widget.mediumBreakpoint + (widget.maxLargeSidebarSize - 58)) &&
+          iconsOnly.value) {
+        iconsOnly.value = false;
+        return;
+      }
 
-    //Check if medium layout should be enabled
-    if (maxWidth < widget.mediumBreakpoint && !iconsOnly) {
-      iconsOnly = true;
-    }
+      //Check if medium layout should be enabled
+      if (maxWidth < widget.mediumBreakpoint && !iconsOnly.value) {
+        iconsOnly.value = true;
+        return;
+      }
+    });
   }
 
   double topPadding() {
@@ -127,8 +132,8 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
     return 10;
   }
 
-  double sidebarWidth() {
-    if (iconsOnly) {
+  double sidebarWidth(bool val) {
+    if (val) {
       return 58;
     }
     return widget.maxLargeSidebarSize;
@@ -171,157 +176,167 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                 color: widget.style == ASStyle.floating
                     ? Theme.of(context).scaffoldBackgroundColor
                     : Theme.of(context).bottomAppBarTheme.color,
-                child: SafeArea(
-                  child: Container(
-                    padding: widget.style == ASStyle.flat
-                        ? EdgeInsets.only(
-                            top: topPadding(),
-                          )
-                        : null,
-                    margin: widget.style == ASStyle.floating
-                        ? EdgeInsets.only(
-                            top: floatingTopPadding(), left: 10, bottom: 10)
-                        : null,
-                    width: sidebarWidth(),
-                    decoration: decoration(),
-                    child: Column(
-                      children: [
-                        // Manual medium button
-                        if (widget.mediumManualButton)
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 0),
-                                child: CupertinoButton(
-                                  child: Icon(
-                                    CupertinoIcons.sidebar_left,
-                                    color: Theme.of(context).iconTheme.color,
+                child: ValueListenableBuilder(
+                  valueListenable: iconsOnly,
+                  builder: (BuildContext context, bool iconsOnlyValue,
+                      Widget? child) {
+                    return SafeArea(
+                      child: Container(
+                        padding: widget.style == ASStyle.flat
+                            ? EdgeInsets.only(
+                                top: topPadding(),
+                              )
+                            : null,
+                        margin: widget.style == ASStyle.floating
+                            ? EdgeInsets.only(
+                                top: floatingTopPadding(), left: 10, bottom: 10)
+                            : null,
+                        width: sidebarWidth(iconsOnlyValue),
+                        decoration: decoration(),
+                        child: Column(
+                          children: [
+                            // Manual medium button
+                            if (widget.mediumManualButton)
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 0),
+                                    child: CupertinoButton(
+                                      child: Icon(
+                                        CupertinoIcons.sidebar_left,
+                                        color:
+                                            Theme.of(context).iconTheme.color,
+                                      ),
+                                      onPressed: () {
+                                        iconsOnly.value = !iconsOnly.value;
+                                        if (mounted) setState(() {});
+                                      },
+                                    ),
                                   ),
-                                  onPressed: () {
-                                    iconsOnly = !iconsOnly;
-                                    if (mounted) setState(() {});
-                                  },
+                                  const Spacer(),
+                                ],
+                              ),
+                            //Title / Icon Section
+                            if (widget.icon != null || widget.title != null)
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, bottom: 5, top: 12),
+                                child: Row(
+                                  children: [
+                                    //Icon
+                                    if (widget.icon != null)
+                                      Padding(
+                                        padding: iconsOnlyValue
+                                            ? EdgeInsets.zero
+                                            : EdgeInsets.only(
+                                                right: widget.iconTitleSpacing),
+                                        child: widget.icon!,
+                                      ),
+                                    //Title
+                                    if (widget.title != null && !iconsOnlyValue)
+                                      Text(
+                                        widget.title!,
+                                        style: widget.titleStyle ??
+                                            Theme.of(context)
+                                                .textTheme
+                                                .displayLarge!
+                                                .copyWith(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                        maxLines: 1,
+                                        softWrap: false,
+                                      ),
+                                  ],
                                 ),
                               ),
-                              const Spacer(),
-                            ],
-                          ),
-                        //Title / Icon Section
-                        if (widget.icon != null || widget.title != null)
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15, bottom: 5, top: 12),
-                            child: Row(
-                              children: [
-                                //Icon
-                                if (widget.icon != null)
-                                  Padding(
-                                    padding: iconsOnly
-                                        ? EdgeInsets.zero
-                                        : EdgeInsets.only(
-                                            right: widget.iconTitleSpacing),
-                                    child: widget.icon!,
-                                  ),
-                                //Title
-                                if (widget.title != null && !iconsOnly)
-                                  Text(
-                                    widget.title!,
-                                    style: widget.titleStyle ??
-                                        Theme.of(context)
-                                            .textTheme
-                                            .displayLarge!
-                                            .copyWith(
-                                              fontSize: 30,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                    maxLines: 1,
-                                    softWrap: false,
-                                  ),
-                              ],
-                            ),
-                          ),
-                        if (widget.icon != null || widget.title != null)
-                          const Divider(),
-                        //Pinned Destination
-                        if (widget.pinnedDestination != null)
-                          ASDestination(
-                            destination: widget.pinnedDestination!,
-                            onTap: () {
-                              widget.onPageChange(-1);
-
-                              //Check if destination is a page
-                              if (!widget.pinnedDestination!.popup) {
-                                _index = -1;
-                                setState(() {});
-                              }
-                            },
-                            selected: _index == -1,
-                            iconsOnly: iconsOnly,
-                          ),
-                        if (widget.pinnedDestination != null)
-                          const Padding(
-                            padding:
-                                EdgeInsets.only(left: 17, right: 17, bottom: 7),
-                            child: Divider(
-                              height: 1,
-                            ),
-                          ),
-                        //Destinations
-                        Expanded(
-                          child: MediaQuery.removePadding(
-                            context: context,
-                            removeBottom: true,
-                            removeTop: true,
-                            child: ListView.builder(
-                              primary: false,
-                              itemCount: widget.destinations.length,
-                              itemBuilder: (context, index) {
-                                return ASDestination(
-                                  destination: widget.destinations[index],
-                                  onTap: () {
-                                    widget.onPageChange(index);
-
-                                    //Check if destination is a page
-                                    if (!widget.destinations[index].popup) {
-                                      _index = index;
-                                      setState(() {});
-                                    }
-                                  },
-                                  selected: _index == index,
-                                  iconsOnly: iconsOnly,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        //Footer destination options
-                        if (widget.footerDestinations.isNotEmpty)
-                          ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: widget.footerDestinations.length,
-                            itemBuilder: (context, index) {
-                              return ASDestination(
-                                destination: widget.footerDestinations[index],
+                            if (widget.icon != null || widget.title != null)
+                              const Divider(),
+                            //Pinned Destination
+                            if (widget.pinnedDestination != null)
+                              ASDestination(
+                                destination: widget.pinnedDestination!,
                                 onTap: () {
-                                  widget.onPageChange(
-                                      widget.destinations.length + index);
+                                  widget.onPageChange(-1);
 
                                   //Check if destination is a page
-                                  if (!widget.footerDestinations[index].popup) {
-                                    _index = widget.destinations.length + index;
+                                  if (!widget.pinnedDestination!.popup) {
+                                    _index = -1;
                                     setState(() {});
                                   }
                                 },
-                                selected: _index ==
-                                    (widget.destinations.length + index),
-                                iconsOnly: iconsOnly,
-                              );
-                            },
-                          ),
-                      ],
-                    ),
-                  ),
+                                selected: _index == -1,
+                                iconsOnly: iconsOnlyValue,
+                              ),
+                            if (widget.pinnedDestination != null)
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                    left: 17, right: 17, bottom: 7),
+                                child: Divider(
+                                  height: 1,
+                                ),
+                              ),
+                            //Destinations
+                            Expanded(
+                              child: MediaQuery.removePadding(
+                                context: context,
+                                removeBottom: true,
+                                removeTop: true,
+                                child: ListView.builder(
+                                  primary: false,
+                                  itemCount: widget.destinations.length,
+                                  itemBuilder: (context, index) {
+                                    return ASDestination(
+                                      destination: widget.destinations[index],
+                                      onTap: () {
+                                        widget.onPageChange(index);
+
+                                        //Check if destination is a page
+                                        if (!widget.destinations[index].popup) {
+                                          _index = index;
+                                          setState(() {});
+                                        }
+                                      },
+                                      selected: _index == index,
+                                      iconsOnly: iconsOnlyValue,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            //Footer destination options
+                            if (widget.footerDestinations.isNotEmpty)
+                              ListView.builder(
+                                primary: false,
+                                shrinkWrap: true,
+                                itemCount: widget.footerDestinations.length,
+                                itemBuilder: (context, index) {
+                                  return ASDestination(
+                                    destination:
+                                        widget.footerDestinations[index],
+                                    onTap: () {
+                                      widget.onPageChange(
+                                          widget.destinations.length + index);
+
+                                      //Check if destination is a page
+                                      if (!widget
+                                          .footerDestinations[index].popup) {
+                                        _index =
+                                            widget.destinations.length + index;
+                                        setState(() {});
+                                      }
+                                    },
+                                    selected: _index ==
+                                        (widget.destinations.length + index),
+                                    iconsOnly: iconsOnlyValue,
+                                  );
+                                },
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             //Content
@@ -331,13 +346,16 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                   //Body
                   Expanded(
                     child: MediaQuery.removePadding(
-                      removeBottom: widget.bottomNavigationBar != null, //Remove bottom padding if there is a navigation bar.
+                      removeBottom: widget.bottomNavigationBar !=
+                          null, //Remove bottom padding if there is a navigation bar.
                       context: context,
                       child: LayoutBuilder(
                         builder: (context, constraints) {
                           //Check breakpoint size
                           if (widget.mediumAuto && !widget.mediumManualButton) {
-                            mediumCheck(constraints.maxWidth);
+                            if (context.mounted) {
+                              mediumCheck(constraints.maxWidth);
+                            }
                           }
 
                           return widget.body;
