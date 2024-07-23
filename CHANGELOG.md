@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+- Updated README.md wording and package description.
+
 ## 0.3.0
 
 - Added support for the bottomNavigationBar [optional].
