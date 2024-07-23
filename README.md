@@ -3,7 +3,7 @@
 [pub-image]: https://img.shields.io/pub/v/adaptive_sidebar.svg
 [pub-url]: https://pub.dev/packages/adaptive_sidebar
 
-Sleak sidebar for desktop/tablet Flutter apps with automatic size change.
+Sleak sidebar for responsive Flutter apps with automatic size change.
 
 ## Usage
 
@@ -95,6 +95,8 @@ Manually enable and disable the medium layout
 ### bottomNavigationBar [optional]
 
 Show a bottomNavigationBar on smaller devices useing the bottomNavigationBarBreakpoint.
+
+If no bottom navigation bar is given it will ignore the bottomNavigationBarBreakpoint and always show the sidebar.
 
 ### bottomNavigationBarBreakpoint
 
