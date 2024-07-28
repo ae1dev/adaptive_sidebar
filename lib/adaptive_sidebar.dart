@@ -306,11 +306,9 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                             ),
                             //Footer destination options
                             if (widget.footerDestinations.isNotEmpty)
-                              ListView.builder(
-                                primary: false,
-                                shrinkWrap: true,
-                                itemCount: widget.footerDestinations.length,
-                                itemBuilder: (context, index) {
+                              ...List.generate(
+                                widget.footerDestinations.length,
+                                (int index) {
                                   return ASDestination(
                                     destination:
                                         widget.footerDestinations[index],
