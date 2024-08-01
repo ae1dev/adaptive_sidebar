@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+
+- Added support for adding a background widget [optional].
+
 ## 0.3.1
 
 - Updated README.md wording and package description.
