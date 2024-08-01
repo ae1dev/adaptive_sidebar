@@ -101,3 +101,7 @@ If no bottom navigation bar is given it will ignore the bottomNavigationBarBreak
 ### bottomNavigationBarBreakpoint
 
 Breakpoint of when the sidebar is enabled and the bottom navigation bar is no longer used.
+
+### backgroundWidget [optional]
+
+Display a widget in the background behind the page and the sidebar.
