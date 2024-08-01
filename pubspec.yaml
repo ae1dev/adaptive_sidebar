@@ -3,6 +3,20 @@ description: "Sleak sidebar for responsive Flutter apps with automatic size chan
 version: 0.4.0
 homepage: https://github.com/ae1dev/adaptive_sidebar
 
+# This package supports all platforms listed below.
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
+topics:
+  - ui
+  - navigation
+  - layout
+
 environment:
   sdk: '>=3.2.3 <4.0.0'
   flutter: ">=1.17.0"
