@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+- Some pubspec.yaml changes for pub.dev page.
+
 ## 0.4.0
 
 - Added support for adding a background widget [optional].
