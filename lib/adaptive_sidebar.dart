@@ -115,10 +115,11 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
   }
 
   double topPadding() {
-    //Top macOS padding
+    // Top macOS top padding
     if (Platform.isMacOS && !kIsWeb && widget.macOSTopPadding) {
       return 35;
     }
+    // Mobile OS padding
     if (Platform.isIOS && !kIsWeb || Platform.isAndroid && !kIsWeb) {
       return 20;
     }
@@ -130,6 +131,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
     if (Platform.isMacOS && !kIsWeb && widget.macOSTopPadding) {
       return 47;
     }
+    // Mobile OS padding
     if (Platform.isIOS && !kIsWeb || Platform.isAndroid && !kIsWeb) {
       return 20;
     }
@@ -137,6 +139,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
   }
 
   double sidebarWidth(bool val) {
+    // Icons only size
     if (val) {
       return 58;
     }
