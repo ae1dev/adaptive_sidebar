@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+- Added destination tooltip on icon only mode (uses the label string).
+
 ## 0.4.1
 
 - Some pubspec.yaml changes for pub.dev page.
