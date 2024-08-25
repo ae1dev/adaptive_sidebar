@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+
+- Fixes tooltip error when not on the icon only mode.
+
 ## 0.5.0
 
 - Added destination tooltip on icon only mode (uses the label string).
