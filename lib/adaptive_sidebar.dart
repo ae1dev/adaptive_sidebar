@@ -13,7 +13,7 @@ part 'models/sidebar_destination.dart';
 part 'widgets/as_destination.dart';
 
 /// AdaptiveSidebar
-/// 
+///
 /// Sleak sidebar for responsive Flutter apps with automatic size change.
 class AdaptiveSidebar extends StatefulWidget {
   /// Where to place your PageView widget.
@@ -295,7 +295,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                       //Check if destination is a page
                                       if (!widget.pinnedDestination!.popup) {
                                         _index = -1;
-                                        setState(() {});
+                                        if (mounted) setState(() {});
                                       }
                                     },
                                     selected: _index == -1,
@@ -329,7 +329,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                             if (!widget
                                                 .destinations[index].popup) {
                                               _index = index;
-                                              setState(() {});
+                                              if (mounted) setState(() {});
                                             }
                                           },
                                           selected: _index == index,
@@ -358,7 +358,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                             _index =
                                                 widget.destinations.length +
                                                     index;
-                                            setState(() {});
+                                            if (mounted) setState(() {});
                                           }
                                         },
                                         selected: _index ==
