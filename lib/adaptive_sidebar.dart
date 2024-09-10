@@ -12,8 +12,14 @@ part 'enums/sidebar_style.dart';
 part 'models/sidebar_destination.dart';
 part 'widgets/as_destination.dart';
 
+/// AdaptiveSidebar
+/// 
+/// Sleak sidebar for responsive Flutter apps with automatic size change.
 class AdaptiveSidebar extends StatefulWidget {
+  /// Where to place your PageView widget.
   final Widget body;
+
+  /// Sidebar destinations
   final List<SidebarDestination> destinations;
 
   /// This will be shown on top of the destination list
