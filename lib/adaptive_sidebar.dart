@@ -10,7 +10,7 @@ import 'package:universal_io/io.dart';
 
 part 'enums/sidebar_style.dart';
 part 'models/sidebar_destination.dart';
-part 'widgets/as_destination.dart';
+part 'widgets/destination.dart';
 
 /// AdaptiveSidebar
 ///
@@ -300,7 +300,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                   const Divider(),
                                 //Pinned Destination
                                 if (widget.pinnedDestination != null)
-                                  ASDestination(
+                                  _Destination(
                                     destination: widget.pinnedDestination!,
                                     onTap: () {
                                       widget.onPageChange(-1);
@@ -335,7 +335,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                       primary: false,
                                       itemCount: widget.destinations.length,
                                       itemBuilder: (context, index) {
-                                        return ASDestination(
+                                        return _Destination(
                                           destination:
                                               widget.destinations[index],
                                           onTap: () {
@@ -363,7 +363,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                   ...List.generate(
                                     widget.footerDestinations.length,
                                     (int index) {
-                                      return ASDestination(
+                                      return _Destination(
                                         destination:
                                             widget.footerDestinations[index],
                                         onTap: () {

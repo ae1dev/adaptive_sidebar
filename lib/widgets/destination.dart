@@ -1,12 +1,12 @@
 part of adaptive_sidebar;
 
-class ASDestination extends StatefulWidget {
+class _Destination extends StatefulWidget {
   final SidebarDestination destination;
   final void Function()? onTap;
   final bool selected, iconsOnly;
   final TextStyle destinationsTextStyle;
   final Color? selectedColor;
-  const ASDestination({
+  const _Destination({
     super.key,
     required this.destination,
     this.selected = false,
@@ -17,10 +17,10 @@ class ASDestination extends StatefulWidget {
   });
 
   @override
-  State<ASDestination> createState() => _ASDestinationState();
+  State<_Destination> createState() => __DestinationState();
 }
 
-class _ASDestinationState extends State<ASDestination> {
+class __DestinationState extends State<_Destination> {
   bool hovering = false;
 
   //Display a hover color for drawer item text
