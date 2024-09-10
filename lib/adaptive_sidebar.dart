@@ -43,7 +43,7 @@ class AdaptiveSidebar extends StatefulWidget {
   /// Text style of the destinations
   final TextStyle destinationsTextStyle;
 
-  /// The text color of the selected destination
+  /// The text and icon color of the selected destination
   /// 
   /// Uses theme primary color when null.
   final Color? selectedColor;
