@@ -72,6 +72,14 @@ Title of the app
 
 Style of the title of the app
 
+### destinationsTextStyle [optional]
+
+Text style of the destinations
+
+### selectedColor [optional]
+
+The text and icon color of the selected destination (will defualt to Theme.of(context).primaryColor if none is provided)
+
 ### maxLargeSidebarSize
 
 size of the sidebar (Default: 192)

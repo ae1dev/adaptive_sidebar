@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+- Added destinationsTextStyle and selectedColor options.
+
 ## 0.5.1
 
 - Fixes tooltip error when not on the icon only mode.
