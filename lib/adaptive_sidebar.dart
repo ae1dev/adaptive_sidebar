@@ -40,6 +40,14 @@ class AdaptiveSidebar extends StatefulWidget {
   /// Style of the title of the app [optional]
   final TextStyle? titleStyle;
 
+  /// Text style of the destinations
+  final TextStyle destinationsTextStyle;
+
+  /// The text color of the selected destination
+  /// 
+  /// Uses theme primary color when null.
+  final Color? selectedColor;
+
   /// Max size of the sidebar
   ///
   /// Default: 192
@@ -82,6 +90,11 @@ class AdaptiveSidebar extends StatefulWidget {
     this.icon,
     this.pinnedDestination,
     this.footerDestinations = const [],
+    this.destinationsTextStyle = const TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+    ),
+    this.selectedColor,
     this.maxLargeSidebarSize = 192,
     this.iconTitleSpacing = 10,
     this.macOSTopPadding = true,
@@ -300,6 +313,9 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                     },
                                     selected: _index == -1,
                                     iconsOnly: iconsOnlyValue,
+                                    destinationsTextStyle:
+                                        widget.destinationsTextStyle,
+                                    selectedColor: widget.selectedColor,
                                   ),
                                 if (widget.pinnedDestination != null)
                                   const Padding(
@@ -334,6 +350,9 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                           },
                                           selected: _index == index,
                                           iconsOnly: iconsOnlyValue,
+                                          destinationsTextStyle:
+                                              widget.destinationsTextStyle,
+                                          selectedColor: widget.selectedColor,
                                         );
                                       },
                                     ),
@@ -365,6 +384,9 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                             (widget.destinations.length +
                                                 index),
                                         iconsOnly: iconsOnlyValue,
+                                        destinationsTextStyle:
+                                            widget.destinationsTextStyle,
+                                        selectedColor: widget.selectedColor,
                                       );
                                     },
                                   ),

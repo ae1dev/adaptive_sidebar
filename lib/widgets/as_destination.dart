@@ -4,12 +4,16 @@ class ASDestination extends StatefulWidget {
   final SidebarDestination destination;
   final void Function()? onTap;
   final bool selected, iconsOnly;
+  final TextStyle destinationsTextStyle;
+  final Color? selectedColor;
   const ASDestination({
     super.key,
     required this.destination,
     this.selected = false,
     this.iconsOnly = false,
     this.onTap,
+    required this.destinationsTextStyle,
+    this.selectedColor,
   });
 
   @override
@@ -21,13 +25,16 @@ class _ASDestinationState extends State<ASDestination> {
 
   //Display a hover color for drawer item text
   Color getTextColor(BuildContext context) {
+    // Hovering color
     if (hovering == true && widget.selected != true) {
-      return Theme.of(context).textTheme.displayLarge!.color!;
+      return widget.destinationsTextStyle.color!;
     }
+    // Selected color
     if (widget.selected == true) {
-      return Theme.of(context).primaryColor;
+      return widget.selectedColor ?? Theme.of(context).primaryColor;
     }
-    return Theme.of(context).textTheme.displayLarge!.color!.withOpacity(0.7);
+    // Unselected color
+    return widget.destinationsTextStyle.color!.withOpacity(0.7);
   }
 
   @override
@@ -75,7 +82,7 @@ class _ASDestinationState extends State<ASDestination> {
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: AutoSizeText(
                       widget.destination.label,
-                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                      style: widget.destinationsTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: getTextColor(context),
