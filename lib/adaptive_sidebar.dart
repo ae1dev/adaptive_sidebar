@@ -93,6 +93,7 @@ class AdaptiveSidebar extends StatefulWidget {
     this.destinationsTextStyle = const TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
+      color: Colors.black,
     ),
     this.selectedColor,
     this.maxLargeSidebarSize = 192,
