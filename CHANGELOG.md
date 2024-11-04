@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+- Added floatingShadow option for the floating sidebar style.
+
 ## 0.6.0
 
 - Added destinationsTextStyle and selectedColor options.
