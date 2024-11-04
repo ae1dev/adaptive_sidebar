@@ -44,7 +44,7 @@ class AdaptiveSidebar extends StatefulWidget {
   final TextStyle destinationsTextStyle;
 
   /// The text and icon color of the selected destination
-  /// 
+  ///
   /// Uses theme primary color when null.
   final Color? selectedColor;
 
@@ -80,6 +80,12 @@ class AdaptiveSidebar extends StatefulWidget {
   ///
   /// Default: flat
   final ASStyle style;
+
+  /// Show a shadow around the floating sidebar
+  ///
+  /// Default: true
+  final bool floatingShadow;
+
   const AdaptiveSidebar({
     super.key,
     required this.body,
@@ -105,6 +111,7 @@ class AdaptiveSidebar extends StatefulWidget {
     this.bottomNavigationBarBreakpoint = 700.0,
     this.mediumManualButton = false,
     this.style = ASStyle.flat,
+    this.floatingShadow = true,
     this.backgroundWidget,
   });
 
@@ -171,14 +178,18 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
     if (widget.style == ASStyle.floating) {
       return BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 4),
-            color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
-            spreadRadius: 1,
-            blurRadius: 15,
-          ),
-        ],
+        boxShadow: widget.floatingShadow
+            ? [
+                BoxShadow(
+                  offset: const Offset(0, 4),
+                  color: Theme.of(context)
+                      .scaffoldBackgroundColor
+                      .withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 15,
+                ),
+              ]
+            : null,
         color: Theme.of(context).cardColor,
       );
     }
@@ -221,7 +232,8 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                       builder: (BuildContext context, bool iconsOnlyValue,
                           Widget? child) {
                         return SafeArea(
-                          child: Container(
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
                             padding: widget.style == ASStyle.flat
                                 ? EdgeInsets.only(
                                     top: topPadding(),

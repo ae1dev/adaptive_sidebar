@@ -80,6 +80,10 @@ Text style of the destinations
 
 The text and icon color of the selected destination (will defualt to Theme.of(context).primaryColor if none is provided)
 
+### floatingShadow [optional]
+
+Show a shadow around the sidebar when using the floating sidebar style.
+
 ### maxLargeSidebarSize
 
 size of the sidebar (Default: 192)
