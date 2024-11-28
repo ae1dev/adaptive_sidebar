@@ -48,53 +48,53 @@ class __DestinationState extends State<_Destination> {
         }),
         cursor: SystemMouseCursors.click,
         child: Container(
-          padding: EdgeInsets.only(
-              right: widget.iconsOnly ? 5 : 8, left: 5, bottom: 4, top: 4),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              //IconData Icon
-              if (widget.destination.icon != null)
-                Container(
-                  margin: EdgeInsets.only(
-                      right: widget.iconsOnly ? 0 : 8, bottom: 2),
-                  child: Icon(
-                    widget.destination.icon,
-                    fill: widget.selected ? 1 : 0,
-                    color: getTextColor(context),
-                  ),
-                ),
-              //Widget Icon
-              if (widget.destination.icon == null &&
-                  widget.destination.iconBuilder != null)
-                Container(
-                  margin: EdgeInsets.only(
-                      right: widget.iconsOnly ? 0 : 8, bottom: 2),
-                  child: widget.destination.iconBuilder!(
-                    context,
-                    getTextColor(context),
-                  ),
-                ),
-              if (!widget.iconsOnly)
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: AutoSizeText(
-                      widget.destination.label,
-                      style: widget.destinationsTextStyle.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: getTextColor(context),
-                          ),
-                      minFontSize: 16,
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+          child: ClipRect(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                //IconData Icon
+                if (widget.destination.icon != null)
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 2),
+                    child: Icon(
+                      widget.destination.icon,
+                      fill: widget.selected ? 1 : 0,
+                      color: getTextColor(context),
                     ),
                   ),
-                ),
-            ],
+                //Widget Icon
+                if (widget.destination.icon == null &&
+                    widget.destination.iconBuilder != null)
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 2),
+                    child: widget.destination.iconBuilder!(
+                      context,
+                      getTextColor(context),
+                    ),
+                  ),
+                //Label
+                if (!widget.iconsOnly)
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        widget.destination.label,
+                        style: widget.destinationsTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: getTextColor(context),
+                        ),
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -103,8 +103,12 @@ class __DestinationState extends State<_Destination> {
     //Wrap tooltip
     if (widget.iconsOnly) {
       return Container(
-        margin: EdgeInsets.only(
-            right: widget.iconsOnly ? 12 : 15, left: 12, top: 5, bottom: 7),
+        margin: const EdgeInsets.only(
+          right: 12,
+          left: 12,
+          top: 5,
+          bottom: 7,
+        ),
         child: Tooltip(
           message: widget.destination.label,
           child: child,
@@ -112,10 +116,16 @@ class __DestinationState extends State<_Destination> {
       );
     }
 
-    return Container(
-      margin: EdgeInsets.only(
-          right: widget.iconsOnly ? 12 : 15, left: 12, top: 5, bottom: 7),
-      child: child,
+    return ClipRect(
+      child: Container(
+        margin: const EdgeInsets.only(
+          right: 12,
+          left: 12,
+          top: 5,
+          bottom: 7,
+        ),
+        child: child,
+      ),
     );
   }
 }
