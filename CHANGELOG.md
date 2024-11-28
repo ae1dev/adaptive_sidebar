@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.2
+
+- Fixed some overflow issues on resize to icon only.
+- Updated example project.
+- Updated README with example photo.
+
 ## 0.6.1
 
 - Added floatingShadow option for the floating sidebar style.
