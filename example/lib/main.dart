@@ -14,6 +14,9 @@ class MyApp extends StatelessWidget {
       title: 'adaptive_sidebar Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        bottomAppBarTheme: const BottomAppBarTheme(
+          color: Colors.white,
+        ),
         useMaterial3: true,
       ),
       home: const TabsView(),
@@ -40,7 +43,10 @@ class _TabsViewState extends State<TabsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AdaptiveSidebar(
-        icon: const Icon(Icons.home_rounded),
+        icon: const Icon(
+          Icons.home_rounded,
+          size: 33,
+        ),
         title: "Example",
         destinations: [
           SidebarDestination(
@@ -62,6 +68,7 @@ class _TabsViewState extends State<TabsView> {
             SettingsView(),
           ],
         ),
+        macOSTopPadding: false,
       ),
     );
   }
