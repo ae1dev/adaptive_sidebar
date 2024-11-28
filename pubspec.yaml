@@ -18,14 +18,13 @@ topics:
   - layout
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: ">=3.2.3 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
   universal_io: ^2.2.2
-  auto_size_text: ^3.0.0
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
