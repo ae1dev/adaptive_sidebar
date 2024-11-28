@@ -276,39 +276,49 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                 if (widget.icon != null || widget.title != null)
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 15, bottom: 5, top: 12),
-                                    child: Row(
-                                      children: [
-                                        //Icon
-                                        if (widget.icon != null)
-                                          Padding(
-                                            padding: iconsOnlyValue
-                                                ? EdgeInsets.zero
-                                                : EdgeInsets.only(
-                                                    right: widget
-                                                        .iconTitleSpacing),
-                                            child: widget.icon!,
-                                          ),
-                                        //Title
-                                        if (widget.title != null &&
-                                            !iconsOnlyValue)
-                                          Text(
-                                            widget.title!,
-                                            style: widget.titleStyle ??
-                                                Theme.of(context)
-                                                    .textTheme
-                                                    .displayLarge!
-                                                    .copyWith(
-                                                      fontSize: 30,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                            maxLines: 1,
-                                            softWrap: false,
-                                          ),
-                                      ],
+                                      left: 13,
+                                      bottom: 5,
+                                      top: 12,
+                                    ),
+                                    child: ClipRect(
+                                      child: Row(
+                                        children: [
+                                          //Icon
+                                          if (widget.icon != null)
+                                            Padding(
+                                              padding: iconsOnlyValue &&
+                                                      widget.title != null
+                                                  ? EdgeInsets.zero
+                                                  : EdgeInsets.only(
+                                                      right: widget
+                                                          .iconTitleSpacing),
+                                              child: widget.icon!,
+                                            ),
+
+                                          //Title
+                                          if (widget.title != null &&
+                                              !iconsOnlyValue)
+                                            Expanded(
+                                              child: Text(
+                                                widget.title!,
+                                                style: widget.titleStyle ??
+                                                    Theme.of(context)
+                                                        .textTheme
+                                                        .displayLarge!
+                                                        .copyWith(
+                                                          fontSize: 30,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                maxLines: 1,
+                                                softWrap: false,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
                                     ),
                                   ),
+
                                 if (widget.icon != null || widget.title != null)
                                   const Divider(),
                                 //Pinned Destination
