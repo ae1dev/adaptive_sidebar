@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.3
+
+- Fixed destinations not using the full sidebar width.
+
 ## 0.6.2
 
 - Fixed some overflow issues on resize to icon only.
