@@ -49,6 +49,7 @@ class __DestinationState extends State<_Destination> {
         cursor: SystemMouseCursors.click,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+          width: double.maxFinite,
           child: ClipRect(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
