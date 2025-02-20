@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0
+
+- Updated README with a better description.
+- Removed usage of `withOpacity` and updated to use `withValues`.
+
 ## 0.6.3
 
 - Fixed destinations not using the full sidebar width.
