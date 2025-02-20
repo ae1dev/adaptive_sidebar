@@ -122,6 +122,10 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
   ValueNotifier<bool> iconsOnly = ValueNotifier(false);
   int _index = 0;
 
+  //Platform check
+  bool get _isMobileOS => !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+  bool get _isMacOS => !kIsWeb && Platform.isMacOS;
+
   void mediumCheck(double maxWidth) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       //Check if medium layout should be disabled
@@ -142,11 +146,11 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
 
   double topPadding() {
     // Top macOS top padding
-    if (Platform.isMacOS && !kIsWeb && widget.macOSTopPadding) {
+    if (_isMacOS && widget.macOSTopPadding) {
       return 35;
     }
     // Mobile OS padding
-    if (Platform.isIOS && !kIsWeb || Platform.isAndroid && !kIsWeb) {
+    if (_isMobileOS) {
       return 20;
     }
     return 0;
@@ -154,11 +158,11 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
 
   double floatingTopPadding() {
     //Top macOS padding
-    if (Platform.isMacOS && !kIsWeb && widget.macOSTopPadding) {
+    if (_isMacOS && widget.macOSTopPadding) {
       return 47;
     }
     // Mobile OS padding
-    if (Platform.isIOS && !kIsWeb || Platform.isAndroid && !kIsWeb) {
+    if (_isMobileOS) {
       return 20;
     }
     return 10;
