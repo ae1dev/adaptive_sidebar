@@ -16,6 +16,7 @@ topics:
   - ui
   - navigation
   - layout
+  - scaffold
 
 environment:
   sdk: ">=3.2.3 <4.0.0"
