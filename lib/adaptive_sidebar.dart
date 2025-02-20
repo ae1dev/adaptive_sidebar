@@ -187,7 +187,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                   offset: const Offset(0, 4),
                   color: Theme.of(context)
                       .scaffoldBackgroundColor
-                      .withOpacity(0.3),
+                      .withValues(alpha: 0.3),
                   spreadRadius: 1,
                   blurRadius: 15,
                 ),

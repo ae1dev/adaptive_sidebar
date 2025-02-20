@@ -34,7 +34,7 @@ class __DestinationState extends State<_Destination> {
       return widget.selectedColor ?? Theme.of(context).primaryColor;
     }
     // Unselected color
-    return widget.destinationsTextStyle.color!.withOpacity(0.7);
+    return widget.destinationsTextStyle.color!.withValues(alpha: 0.7);
   }
 
   @override
