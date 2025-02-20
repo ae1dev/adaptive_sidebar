@@ -1,4 +1,4 @@
-part of adaptive_sidebar;
+part of '../adaptive_sidebar.dart';
 
 enum ASStyle {
   floating,
