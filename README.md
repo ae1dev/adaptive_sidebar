@@ -1,11 +1,11 @@
-# Adaptive Sidebar
+# Adaptive Sidebar Scaffold
 
 [pub-image]: https://img.shields.io/pub/v/adaptive_sidebar.svg
 [pub-url]: https://pub.dev/packages/adaptive_sidebar
 
 ![Image](https://github.com/ae1dev/adaptive_sidebar/blob/main/example/assets/screenshot.png?raw=true)
 
-Sleak sidebar for responsive Flutter apps with automatic size change.
+A modern, responsive sidebar navigation component for Flutter applications that automatically adapts its size based on screen dimensions and device type. Perfect for creating consistent navigation experiences across desktop, tablet, and mobile interfaces.
 
 ## Usage
 
@@ -30,7 +30,7 @@ AdaptiveSidebar(
     onPageChange: (index) {
         //Do something
     },
-    child: child,
+    body: child,
 );
 
 ```
