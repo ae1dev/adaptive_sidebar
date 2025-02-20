@@ -327,6 +327,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                 //Pinned Destination
                                 if (widget.pinnedDestination != null)
                                   _Destination(
+                                    key: const Key('destination_pinned'),
                                     destination: widget.pinnedDestination!,
                                     onTap: () {
                                       widget.onPageChange(-1);
@@ -362,6 +363,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                       itemCount: widget.destinations.length,
                                       itemBuilder: (context, index) {
                                         return _Destination(
+                                          key: Key('destination_$index'),
                                           destination:
                                               widget.destinations[index],
                                           onTap: () {
@@ -390,6 +392,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                                     widget.footerDestinations.length,
                                     (int index) {
                                       return _Destination(
+                                        key: Key('destination_footer_$index'),
                                         destination:
                                             widget.footerDestinations[index],
                                         onTap: () {
