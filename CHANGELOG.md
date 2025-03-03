@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0
+
+- Added support for trailing icon buttons with `DestinationTrailingIconButton`.
+
 ## 0.7.0
 
 - Updated README with a better description.
