@@ -440,8 +440,7 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
                           child: LayoutBuilder(
                             builder: (context, constraints) {
                               //Check breakpoint size
-                              if (widget.mediumAuto &&
-                                  !widget.mediumManualButton) {
+                              if (widget.mediumAuto) {
                                 if (context.mounted) {
                                   mediumCheck(constraints.maxWidth);
                                 }
