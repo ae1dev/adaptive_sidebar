@@ -9,6 +9,7 @@ import 'package:universal_io/io.dart';
 
 part 'enums/sidebar_style.dart';
 part 'models/sidebar_destination.dart';
+part 'models/destination_trailing_icon_button.dart';
 part 'widgets/destination.dart';
 
 /// AdaptiveSidebar

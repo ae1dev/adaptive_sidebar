@@ -48,50 +48,69 @@ class __DestinationState extends State<_Destination> {
         }),
         cursor: SystemMouseCursors.click,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+          padding: EdgeInsets.only(
+            left: 5,
+            right: widget.destination.trailingIconButton != null ? 0 : 5,
+            top: 4,
+            bottom: 4,
+          ),
           width: double.maxFinite,
           child: ClipRect(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                //IconData Icon
-                if (widget.destination.icon != null)
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 2),
-                    child: Icon(
-                      widget.destination.icon,
-                      fill: widget.selected ? 1 : 0,
-                      color: getTextColor(context),
-                    ),
-                  ),
-                //Widget Icon
-                if (widget.destination.icon == null &&
-                    widget.destination.iconBuilder != null)
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 2),
-                    child: widget.destination.iconBuilder!(
-                      context,
-                      getTextColor(context),
-                    ),
-                  ),
-                //Label
-                if (!widget.iconsOnly)
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Text(
-                        widget.destination.label,
-                        style: widget.destinationsTextStyle.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                // Left side with icon and text
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      //IconData Icon
+                      if (widget.destination.icon != null)
+                        Icon(
+                          widget.destination.icon,
+                          fill: widget.selected ? 1 : 0,
                           color: getTextColor(context),
                         ),
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.fade,
-                      ),
+                      //Widget Icon
+                      if (widget.destination.icon == null &&
+                          widget.destination.iconBuilder != null)
+                        widget.destination.iconBuilder!(
+                          context,
+                          getTextColor(context),
+                        ),
+                      //Label
+                      if (!widget.iconsOnly)
+                        Flexible(
+                          fit: FlexFit.loose,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Text(
+                              widget.destination.label,
+                              style: widget.destinationsTextStyle.copyWith(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: getTextColor(context),
+                              ),
+                              maxLines: 1,
+                              softWrap: false,
+                              overflow: TextOverflow.fade,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                //Trailing icon button
+                if (widget.destination.trailingIconButton != null &&
+                    !widget.iconsOnly)
+                  Container(
+                    margin: const EdgeInsets.only(left: 2),
+                    child: IconButton(
+                      onPressed:
+                          widget.destination.trailingIconButton!.onPressed,
+                      icon: widget.destination.trailingIconButton!.icon,
+                      tooltip: widget.destination.trailingIconButton!.tooltip,
                     ),
                   ),
               ],

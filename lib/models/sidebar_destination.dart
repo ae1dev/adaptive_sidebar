@@ -13,10 +13,14 @@ class SidebarDestination {
   ///If the destination is a popup not a page to navigate to
   bool popup;
 
+  ///Trailing icon button
+  DestinationTrailingIconButton? trailingIconButton;
+
   SidebarDestination({
     required this.label,
     this.icon,
     this.iconBuilder,
     this.popup = false,
+    this.trailingIconButton,
   });
 }
