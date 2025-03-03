@@ -55,6 +55,18 @@ class _TabsViewState extends State<TabsView> {
             label: "Home",
           ),
           SidebarDestination(
+            icon: Icons.music_note_rounded,
+            label: "Library",
+            trailingIconButton: DestinationTrailingIconButton(
+              icon: const Icon(
+                Icons.download,
+              ),
+              onPressed: () {
+                print('Test');
+              },
+            ),
+          ),
+          SidebarDestination(
             icon: Icons.settings_rounded,
             label: "Settings",
           ),
@@ -66,6 +78,7 @@ class _TabsViewState extends State<TabsView> {
           controller: _pageController,
           children: const [
             HomeView(),
+            LibraryView(),
             SettingsView(),
           ],
         ),
@@ -88,6 +101,25 @@ class _HomeViewState extends State<HomeView> {
       body: Center(
         child: Text(
           'Home Tab',
+        ),
+      ),
+    );
+  }
+}
+
+class LibraryView extends StatefulWidget {
+  const LibraryView({super.key});
+  @override
+  State<LibraryView> createState() => _LibraryViewState();
+}
+
+class _LibraryViewState extends State<LibraryView> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          'Library Tab',
         ),
       ),
     );
