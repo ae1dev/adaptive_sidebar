@@ -31,6 +31,9 @@ class AdaptiveSidebar extends StatefulWidget {
   /// Called when a new destination has been selected
   final void Function(int index) onPageChange;
 
+  /// What tab to start out on
+  final int initialIndex;
+
   /// Icon shown before the title
   final Widget? icon;
 
@@ -91,6 +94,7 @@ class AdaptiveSidebar extends StatefulWidget {
     required this.body,
     required this.destinations,
     required this.onPageChange,
+    this.initialIndex = 0,
     this.title,
     this.titleStyle,
     this.icon,
@@ -126,6 +130,12 @@ class _AdaptiveSidebarState extends State<AdaptiveSidebar> {
   //Platform check
   bool get _isMobileOS => !kIsWeb && (Platform.isIOS || Platform.isAndroid);
   bool get _isMacOS => !kIsWeb && Platform.isMacOS;
+
+  @override
+  void initState() {
+    _index = widget.initialIndex;
+    super.initState();
+  }
 
   void mediumCheck(double maxWidth) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
