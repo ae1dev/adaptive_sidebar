@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.0
+
+- Added support setting an initial index with `initialIndex`.
+
 ## 0.8.0
 
 - Added support for trailing icon buttons with `DestinationTrailingIconButton`.
